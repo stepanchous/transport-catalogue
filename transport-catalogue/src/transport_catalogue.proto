@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package trc_serialization;
+
+import "map_renderer.proto";
+import "transport_router.proto";
+
+message Coordinates {
+   double lat = 1;
+   double lng = 2;
+}
+
+message Stop {
+    uint32 id = 1;
+    string name = 2;
+    Coordinates coordinates = 3;
+}
+
+message DistanceInfo {
+    uint32 to_stop_id = 1;
+    double distance = 2;
+}
+
+message StopDistances {
+    uint32 from_stop_id = 1;
+    repeated DistanceInfo distance_info = 2;
+}
+
+message Bus {
+    string name = 1;
+    repeated uint32 stop = 2;
+    double route_length = 3;
+    double curvature = 4;
+    bool is_roundtrip = 5;
+}
+
+message TransportCatalogue {
+    repeated Stop stop = 1;
+    repeated StopDistances distance = 2;
+    repeated Bus bus = 3;
+}
+
+message SerializationData {
+    TransportCatalogue transport_catalogue = 1;
+    RenderSettings render_settings = 2;
+    RouterSettings router_settings = 3;
+}
